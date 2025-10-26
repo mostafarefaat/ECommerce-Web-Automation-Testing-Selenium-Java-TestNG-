@@ -1,7 +1,9 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.Pages.ConfirmationPage;
 import org.Pages.LandingPage;
+import org.Pages.CartPage;
 import org.Pages.ProductCataloguePage;
 
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v139.network.Network;
 import org.openqa.selenium.devtools.v139.network.model.ConnectionType;
+import org.testng.Assert;
 
 
 import java.time.Duration;
@@ -52,41 +55,28 @@ public class SubmitOrderTest {
 
         String productName = "ZARA COAT 3";
 
+        //Landing Page
         LandingPage landingPage = new LandingPage(driver);
         landingPage.goTo();
         landingPage.loginApplication("SaA@gmail.com","Sa@123456");
 
+        //Catalogue Page
         ProductCataloguePage cataloguePage = new ProductCataloguePage(driver);
         cataloguePage.addProductToCart(productName);
         cataloguePage.clickOnCart();
 
-
-
-/*
-        List<WebElement> cartProducts = driver.findElements(By.cssSelector(".cartSection h3"));
-
-        boolean match = cartProducts.stream().anyMatch(cartProduct-> cartProduct.getText().equalsIgnoreCase(productName));
-
+        //Cart Page
+        CartPage cartPage = new CartPage(driver);
+        boolean match = cartPage.checkProductPresence(productName);
         Assert.assertTrue(match);
+        cartPage.clickOnCheckOut();
+        cartPage.selectEgyptCountry();
+        cartPage.clickOnPlaceOrder();
 
-        driver.findElement(By.xpath("//button[text()='Checkout']")).click();
-
-        Actions action = new Actions(driver);
-
-        action.sendKeys(driver.findElement(By.cssSelector("input[placeholder='Select Country']")),"Egypt").build().perform();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ta-results")));
-
-        driver.findElement(By.xpath("//section/button/span[text()=' Egypt']")).click();
-
-        driver.findElement(By.className("action__submit")).click();
-
-        String confirmMsg = driver.findElement(By.className("hero-primary")).getText();
+        //Confirmation Page
+        ConfirmationPage confirmationPage = new ConfirmationPage(driver);
+        String confirmMsg = confirmationPage.getConfirmationText();
         Assert.assertEquals(confirmMsg,"THANKYOU FOR THE ORDER");
-
-*/
-
-
 
     }
 
