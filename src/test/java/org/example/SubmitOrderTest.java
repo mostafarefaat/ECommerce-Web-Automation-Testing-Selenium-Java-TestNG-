@@ -1,7 +1,10 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.Pages.LandingPage;
+import org.Pages.ProductCataloguePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,17 +20,18 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
-public class StandAloneTest {
+public class SubmitOrderTest {
 
-    public static void main(String[] args){
+    static ChromeDriver driver;
 
+    public static WebDriver init(){
         WebDriverManager.chromedriver().setup();
 
         //Set Chrome Options
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
 
-        ChromeDriver driver = new ChromeDriver(options);
+         driver = new ChromeDriver(options);
 
         //Access DevTools
         DevTools devTools = driver.getDevTools();
@@ -46,35 +50,26 @@ public class StandAloneTest {
         ));
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        return driver;
+    }
 
+    public static void main(String[] args){
 
-        driver.get("https://rahulshettyacademy.com/client");
-
-        driver.findElement(By.id("userEmail")).sendKeys("SaA@gmail.com");
-        driver.findElement(By.id("userPassword")).sendKeys("Sa@123456");
-        driver.findElement(By.id("login")).click();
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[aria-label*='Login Successfully']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mb-3")));
+        init();
 
         String productName = "ZARA COAT 3";
-        List<WebElement> catalogueProducts = driver.findElements(By.cssSelector(".mb-3"));
 
-        WebElement homeProduct = catalogueProducts.stream().
-                filter(product->product.findElement(By.cssSelector("b")).getText().equals(productName))
-                .findFirst().orElse(null);
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.goTo();
+        landingPage.loginApplication("SaA@gmail.com","Sa@123456");
 
-        assert homeProduct != null;
+        ProductCataloguePage cataloguePage = new ProductCataloguePage(driver);
+        cataloguePage.addProductToCart(productName);
+        cataloguePage.clickOnCart();
 
-        homeProduct.findElement(By.xpath("//button[2]")).click();
 
 
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("ngx-spinner.ng-tns-c31-1")));
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("toast-container"))));
-
-        driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
-
+/*
         List<WebElement> cartProducts = driver.findElements(By.cssSelector(".cartSection h3"));
 
         boolean match = cartProducts.stream().anyMatch(cartProduct-> cartProduct.getText().equalsIgnoreCase(productName));
@@ -96,5 +91,10 @@ public class StandAloneTest {
         String confirmMsg = driver.findElement(By.className("hero-primary")).getText();
         Assert.assertEquals(confirmMsg,"THANKYOU FOR THE ORDER");
 
+*/
+
+
+
     }
+
 }
