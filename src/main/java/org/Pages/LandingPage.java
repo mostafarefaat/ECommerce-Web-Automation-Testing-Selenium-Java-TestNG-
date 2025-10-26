@@ -38,10 +38,11 @@ public class LandingPage extends Abstract {
         loginButton.click();
     }
 
-    public void loginApplication(String userName, String userPassword){
+    public ProductCataloguePage loginApplication(String userName, String userPassword){
         setUserName(userName);
         setUserPassword(userPassword);
         clickLogin();
+        return new ProductCataloguePage(driver);
     }
 
     public void goTo(){

@@ -29,9 +29,6 @@ public class ProductCataloguePage extends Abstract {
     @FindBy(css = ".mb-3")
     List<WebElement> catalogueProducts;
 
-    @FindBy (css = "[routerlink*='cart']")
-    WebElement cartButton;
-
 
     public List<WebElement> getProductsList(){
         waitForElementToAppear(loginConfirmMsg);
@@ -52,9 +49,4 @@ public class ProductCataloguePage extends Abstract {
         waitForElementToDisappear(spinner);
 
     }
-
-    public void clickOnCart(){
-        cartButton.click();
-    }
-
 }

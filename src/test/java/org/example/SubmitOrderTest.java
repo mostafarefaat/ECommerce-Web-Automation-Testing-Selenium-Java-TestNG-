@@ -1,10 +1,7 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.Pages.ConfirmationPage;
-import org.Pages.LandingPage;
-import org.Pages.CartPage;
-import org.Pages.ProductCataloguePage;
+import org.Pages.*;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -58,25 +55,22 @@ public class SubmitOrderTest {
         //Landing Page
         LandingPage landingPage = new LandingPage(driver);
         landingPage.goTo();
-        landingPage.loginApplication("SaA@gmail.com","Sa@123456");
+        ProductCataloguePage cataloguePage = landingPage.loginApplication("SaA@gmail.com","Sa@123456");
 
         //Catalogue Page
-        ProductCataloguePage cataloguePage = new ProductCataloguePage(driver);
         cataloguePage.addProductToCart(productName);
-        cataloguePage.clickOnCart();
+        CartPage cartPage = cataloguePage.goToCartPage();
 
         //Cart Page
-        CartPage cartPage = new CartPage(driver);
         boolean match = cartPage.checkProductPresence(productName);
         Assert.assertTrue(match);
-        cartPage.clickOnCheckOut();
-        cartPage.selectEgyptCountry();
-        cartPage.clickOnPlaceOrder();
+        CheckOutPage checkOutPage = cartPage.clickOnCheckOut();
+        checkOutPage.selectEgyptCountry("Egypt");
+        ConfirmationPage confirmationPage = checkOutPage.clickOnPlaceOrder();
 
         //Confirmation Page
-        ConfirmationPage confirmationPage = new ConfirmationPage(driver);
         String confirmMsg = confirmationPage.getConfirmationText();
-        Assert.assertEquals(confirmMsg,"THANKYOU FOR THE ORDER");
+        Assert.assertEquals(confirmMsg,"THANKYOU FOR THE ORDER.");
 
     }
 
