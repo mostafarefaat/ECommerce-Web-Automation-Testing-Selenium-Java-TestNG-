@@ -64,6 +64,8 @@ public class SubmitOrderTest {
         //Cart Page
         boolean match = cartPage.checkProductPresence(productName);
         Assert.assertTrue(match);
+
+        //CheckOut Page
         CheckOutPage checkOutPage = cartPage.clickOnCheckOut();
         checkOutPage.selectEgyptCountry("Egypt");
         ConfirmationPage confirmationPage = checkOutPage.clickOnPlaceOrder();
