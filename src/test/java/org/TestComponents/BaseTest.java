@@ -12,6 +12,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +23,8 @@ import java.util.Properties;
 
 public class BaseTest {
 
-    WebDriver driver;
+    private WebDriver driver;
+    public LandingPage landingPage;
 
     private WebDriver initializeDriver() throws IOException {
 
@@ -85,12 +88,21 @@ public class BaseTest {
 
     }
 
+    @BeforeMethod
     public LandingPage launchApplication() throws IOException {
         driver = initializeDriver();
         //Landing Page
-        LandingPage landingPage = new LandingPage(driver);
+        landingPage = new LandingPage(driver);
         landingPage.goTo();
         return landingPage;
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();  // closes browser + ends WebDriver session
+            System.out.println("Driver closed successfully!");
+        }
     }
 
 }

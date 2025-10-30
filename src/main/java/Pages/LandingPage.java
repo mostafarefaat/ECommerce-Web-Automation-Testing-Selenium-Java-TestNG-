@@ -26,6 +26,14 @@ public class LandingPage extends Abstract {
     @FindBy(id = "login")
     WebElement loginButton;
 
+    @FindBy(css = "div[role='alert']")
+    WebElement errorMsg;
+
+
+    public void goTo(){
+        driver.get("https://rahulshettyacademy.com/client");
+    }
+
     private void setUserName(String userName){
         userEmailField.sendKeys(userName);
     }
@@ -45,8 +53,8 @@ public class LandingPage extends Abstract {
         return new ProductCataloguePage(driver);
     }
 
-    public void goTo(){
-        driver.get("https://rahulshettyacademy.com/client");
+    public String getErrorMsg(){
+        waitForWebElementToAppear(errorMsg);
+        return errorMsg.getText();
     }
-
 }

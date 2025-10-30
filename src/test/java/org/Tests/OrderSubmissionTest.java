@@ -8,13 +8,12 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class SubmitOrderTest extends BaseTest {
+public class OrderSubmissionTest extends BaseTest {
 
     @Test
-    public void submitOrder() throws IOException {
+    public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded() throws IOException {
 
         String productName = "ZARA COAT 3";
-        LandingPage landingPage = launchApplication();
         ProductCataloguePage cataloguePage = landingPage.loginApplication("SaA@gmail.com","Sa@123456");
 
         //Catalogue Page
