@@ -1,6 +1,6 @@
 package AbstractComponents;
 
-import org.Pages.CartPage;
+import Pages.CartPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

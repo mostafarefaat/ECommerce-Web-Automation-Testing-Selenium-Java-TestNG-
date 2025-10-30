@@ -1,4 +1,4 @@
-package org.Pages;
+package Pages;
 
 import AbstractComponents.Abstract;
 import org.openqa.selenium.WebDriver;
