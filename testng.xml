@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="C:/Users/mosta/IdeaProjects/ECommerce Application">
+<suite name="Suite">
+    <test thread-count="5" name="Error Validations Test">
         <classes>
 
             <class name="org.Tests.LoginErrorValidationTest">
-            <methods>
-                <include name="testInvalidEmail_ShowsErrorMessage"/>
-                <include name="testInvalidPassword_ShowsErrorMessage"/>
-            </methods>
-            </class>
-
-            <class name="org.Tests.OrderSubmissionTest">
                 <methods>
-                <include name="shouldSubmitOrderSuccessfully_whenValidProductIsAdded"/>
+                    <include name="testInvalidEmail_ShowsErrorMessage"/>
+                    <include name="testInvalidPassword_ShowsErrorMessage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test thread-count="5" name="Submit Order Test">
+        <classes>
+            <class name="org.Tests.OrderFlowTest">
+                <methods>
+                    <include name="shouldSubmitOrderSuccessfully_whenValidProductIsAdded"/>
+                    <include name="shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission"/>
                 </methods>
             </class>
 

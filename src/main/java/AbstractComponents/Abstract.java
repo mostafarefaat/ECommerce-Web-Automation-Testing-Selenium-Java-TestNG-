@@ -1,6 +1,7 @@
 package AbstractComponents;
 
 import Pages.CartPage;
+import Pages.OrdersPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,9 +22,19 @@ public class Abstract {
     @FindBy(css = "[routerlink*='cart']")
     WebElement cartButton;
 
+
+    @FindBy(css = "[routerlink='/dashboard/myorders']")
+    WebElement ordersButton;
+
     public CartPage goToCartPage(){
         cartButton.click();
         return new CartPage(driver);
+
+    }
+
+    public OrdersPage goToOrdersPage(){
+        ordersButton.click();
+        return new OrdersPage(driver);
 
     }
 

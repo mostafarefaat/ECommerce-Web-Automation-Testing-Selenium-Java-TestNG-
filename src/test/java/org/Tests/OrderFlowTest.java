@@ -8,12 +8,14 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class OrderSubmissionTest extends BaseTest {
+public class OrderFlowTest extends BaseTest {
+
+    String productName = "ZARA COAT 3";
 
     @Test
     public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded() throws IOException {
 
-        String productName = "ZARA COAT 3";
+
         ProductCataloguePage cataloguePage = landingPage.loginApplication("SaA@gmail.com","Sa@123456");
 
         //Catalogue Page
@@ -33,6 +35,13 @@ public class OrderSubmissionTest extends BaseTest {
         String confirmMsg = confirmationPage.getConfirmationText();
         Assert.assertEquals(confirmMsg,"THANKYOU FOR THE ORDER.");
 
+    }
+
+    @Test (dependsOnMethods = {"shouldSubmitOrderSuccessfully_whenValidProductIsAdded"})
+    public void shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission(){
+        ProductCataloguePage cataloguePage = landingPage.loginApplication("SaA@gmail.com","Sa@123456");
+        OrdersPage ordersPage = cataloguePage.goToOrdersPage();
+        Assert.assertTrue(ordersPage.checkOrderPresence(productName));
     }
 
 }
