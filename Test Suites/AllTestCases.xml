@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite">
+<suite  name="Suite">
+
+    <groups>
+        <run>
+            <include name="ErrorHandling"/>
+        </run>
+    </groups>
+
+    <!--Error Handling Tests-->
     <test thread-count="5" name="Error Validations Test">
         <classes>
 
             <class name="org.Tests.LoginErrorValidationTest">
-                <methods>
-                    <include name="testInvalidEmail_ShowsErrorMessage"/>
-                    <include name="testInvalidPassword_ShowsErrorMessage"/>
-                </methods>
             </class>
         </classes>
     </test>
 
+    <!--E2E Tests-->
     <test thread-count="5" name="Submit Order Test">
         <classes>
             <class name="org.Tests.OrderFlowTest">
-                <methods>
-                    <include name="shouldSubmitOrderSuccessfully_whenValidProductIsAdded"/>
-                    <include name="shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission"/>
-                </methods>
             </class>
-
         </classes>
     </test>
+
+
 </suite>

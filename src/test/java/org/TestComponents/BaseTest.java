@@ -88,7 +88,7 @@ public class BaseTest {
 
     }
 
-    @BeforeMethod
+    @BeforeMethod (alwaysRun = true)
     public LandingPage launchApplication() throws IOException {
         driver = initializeDriver();
         //Landing Page
@@ -97,7 +97,7 @@ public class BaseTest {
         return landingPage;
     }
 
-    @AfterMethod
+    @AfterMethod (alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
             driver.quit();  // closes browser + ends WebDriver session
