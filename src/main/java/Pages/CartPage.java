@@ -24,8 +24,8 @@ public class CartPage extends Abstract {
     @FindBy(xpath = "//button[text()='Checkout']")
     WebElement checkOutButton;
 
-    public boolean checkProductPresence(String productName){
-        return cartProducts.stream().anyMatch(cartProduct-> cartProduct.getText().equalsIgnoreCase(productName));
+    public boolean checkProductPresence(Object productName){
+        return cartProducts.stream().anyMatch(cartProduct-> cartProduct.getText().equalsIgnoreCase(productName.toString()));
     }
 
     public CheckOutPage clickOnCheckOut(){

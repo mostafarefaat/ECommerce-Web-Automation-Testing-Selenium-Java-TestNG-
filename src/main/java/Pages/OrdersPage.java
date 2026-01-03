@@ -22,15 +22,11 @@ public class OrdersPage extends Abstract {
     List<WebElement> orderNames;
 
 
-    public boolean checkOrderPresence(String productName){
+    public boolean checkOrderPresence(Object productName){
         return orderNames.stream().
                 anyMatch(cartProduct-> cartProduct.getText().
-                        equalsIgnoreCase(productName));
+                        equalsIgnoreCase(productName.toString()));
     }
-
-
-
-
 
 
 }

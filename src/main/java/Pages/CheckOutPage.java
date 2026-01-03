@@ -29,9 +29,9 @@ public class CheckOutPage extends Abstract {
     @FindBy(className = "action__submit")
     WebElement placeOrderButton;
 
-    public void selectEgyptCountry(String country){
+    public void selectEgyptCountry(Object country){
         Actions action = new Actions(driver);
-        action.sendKeys(countryField,country).build().perform();
+        action.sendKeys(countryField,country.toString()).build().perform();
         waitForElementToAppear(countryResults);
         selectEgypt.click();
     }

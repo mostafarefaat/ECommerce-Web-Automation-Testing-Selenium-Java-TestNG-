@@ -46,9 +46,9 @@ public class LandingPage extends Abstract {
         loginButton.click();
     }
 
-    public ProductCataloguePage loginApplication(String userName, String userPassword){
-        setUserName(userName);
-        setUserPassword(userPassword);
+    public ProductCataloguePage loginApplication(Object userName, Object userPassword){
+        setUserName(userName.toString());
+        setUserPassword(userPassword.toString());
         clickLogin();
         return new ProductCataloguePage(driver);
     }

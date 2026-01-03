@@ -50,9 +50,9 @@ public class ProductCataloguePage extends Abstract {
 
     }
 
-    public void addProductToCart(String productName){
+    public void addProductToCart(Object productName){
 
-        getProductByName(productName).findElement(addToCart).click();
+        getProductByName(productName.toString()).findElement(addToCart).click();
         waitForElementToAppear(toastMsg);
         waitForElementToDisappear(spinner);
 

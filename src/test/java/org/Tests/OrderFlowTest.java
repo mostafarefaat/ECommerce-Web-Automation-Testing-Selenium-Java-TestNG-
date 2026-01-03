@@ -8,27 +8,28 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class OrderFlowTest extends BaseTest {
 
 
     @Test (dataProvider = "getData")
-    public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded(String email, String password, String productName, String countryName) throws IOException {
+    public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded(HashMap<Object,Object> input){
 
 
-        ProductCataloguePage cataloguePage = landingPage.loginApplication(email,password);
+        ProductCataloguePage cataloguePage = landingPage.loginApplication(input.get("email"),input.get("password"));
 
         //Catalogue Page
-        cataloguePage.addProductToCart(productName);
+        cataloguePage.addProductToCart(input.get("productName"));
         CartPage cartPage = cataloguePage.goToCartPage();
 
         //Cart Page
-        boolean match = cartPage.checkProductPresence(productName);
+        boolean match = cartPage.checkProductPresence(input.get("productName"));
         Assert.assertTrue(match);
 
         //CheckOut Page
         CheckOutPage checkOutPage = cartPage.clickOnCheckOut();
-        checkOutPage.selectEgyptCountry(countryName);
+        checkOutPage.selectEgyptCountry(input.get("country"));
         ConfirmationPage confirmationPage = checkOutPage.clickOnPlaceOrder();
 
         //Confirmation Page
@@ -38,16 +39,28 @@ public class OrderFlowTest extends BaseTest {
     }
 
     @Test ( dataProvider = "getData",dependsOnMethods = {"shouldSubmitOrderSuccessfully_whenValidProductIsAdded"})
-    public void shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission(String email, String password,String productName, String countryName){
-        ProductCataloguePage cataloguePage = landingPage.loginApplication(email,password);
+    public void shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission(HashMap<Object,Object> input){
+        ProductCataloguePage cataloguePage = landingPage.loginApplication(input.get("email"),input.get("password"));
         OrdersPage ordersPage = cataloguePage.goToOrdersPage();
-        Assert.assertTrue(ordersPage.checkOrderPresence(productName));
+        Assert.assertTrue(ordersPage.checkOrderPresence(input.get("productName")));
     }
 
     @DataProvider
     public Object[][] getData(){
-        return new Object[][] { {"SaA@gmail.com","Sa@123456","ZARA COAT 3","Egypt"},
-                {"Test1@gmail.cc","Sa@123456","ADIDAS ORIGINAL","Egypt"} };
+
+        HashMap<Object,Object> map1 = new HashMap<,>();
+        map1.put("email","SaA@gmail.com");
+        map1.put("password","Sa@123456");
+        map1.put("productName","ZARA COAT 3");
+        map1.put("country","Egypt");
+
+        HashMap<Object,Object> map2 = new HashMap<,>();
+        map2.put("email","Test1@gmail.cc");
+        map2.put("password","Sa@123456");
+        map2.put("productName","ADIDAS ORIGINAL");
+        map2.put("country","Egypt");
+
+        return new Object[][] { {map1},{map2} };
     }
 
 }
