@@ -4,19 +4,19 @@ import Pages.*;
 
 import org.TestComponents.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
 public class OrderFlowTest extends BaseTest {
 
-    String productName = "ZARA COAT 3";
 
-    @Test
-    public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded() throws IOException {
+    @Test (dataProvider = "getData")
+    public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded(String email, String password, String productName, String countryName) throws IOException {
 
 
-        ProductCataloguePage cataloguePage = landingPage.loginApplication("SaA@gmail.com","Sa@123456");
+        ProductCataloguePage cataloguePage = landingPage.loginApplication(email,password);
 
         //Catalogue Page
         cataloguePage.addProductToCart(productName);
@@ -28,7 +28,7 @@ public class OrderFlowTest extends BaseTest {
 
         //CheckOut Page
         CheckOutPage checkOutPage = cartPage.clickOnCheckOut();
-        checkOutPage.selectEgyptCountry("Egypt");
+        checkOutPage.selectEgyptCountry(countryName);
         ConfirmationPage confirmationPage = checkOutPage.clickOnPlaceOrder();
 
         //Confirmation Page
@@ -37,11 +37,17 @@ public class OrderFlowTest extends BaseTest {
 
     }
 
-    @Test (dependsOnMethods = {"shouldSubmitOrderSuccessfully_whenValidProductIsAdded"})
-    public void shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission(){
-        ProductCataloguePage cataloguePage = landingPage.loginApplication("SaA@gmail.com","Sa@123456");
+    @Test ( dataProvider = "getData",dependsOnMethods = {"shouldSubmitOrderSuccessfully_whenValidProductIsAdded"})
+    public void shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission(String email, String password,String productName, String countryName){
+        ProductCataloguePage cataloguePage = landingPage.loginApplication(email,password);
         OrdersPage ordersPage = cataloguePage.goToOrdersPage();
         Assert.assertTrue(ordersPage.checkOrderPresence(productName));
+    }
+
+    @DataProvider
+    public Object[][] getData(){
+        return new Object[][] { {"SaA@gmail.com","Sa@123456","ZARA COAT 3","Egypt"},
+                {"Test1@gmail.cc","Sa@123456","ADIDAS ORIGINAL","Egypt"} };
     }
 
 }
