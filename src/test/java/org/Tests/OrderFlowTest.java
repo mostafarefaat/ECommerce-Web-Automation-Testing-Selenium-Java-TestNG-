@@ -7,7 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public class OrderFlowTest extends BaseTest {
@@ -48,13 +47,13 @@ public class OrderFlowTest extends BaseTest {
     @DataProvider
     public Object[][] getData(){
 
-        HashMap<Object,Object> map1 = new HashMap<,>();
+        HashMap<Object,Object> map1 = new HashMap<Object, Object>();
         map1.put("email","SaA@gmail.com");
         map1.put("password","Sa@123456");
         map1.put("productName","ZARA COAT 3");
         map1.put("country","Egypt");
 
-        HashMap<Object,Object> map2 = new HashMap<,>();
+        HashMap<Object,Object> map2 = new HashMap<Object, Object>();
         map2.put("email","Test1@gmail.cc");
         map2.put("password","Sa@123456");
         map2.put("productName","ADIDAS ORIGINAL");
