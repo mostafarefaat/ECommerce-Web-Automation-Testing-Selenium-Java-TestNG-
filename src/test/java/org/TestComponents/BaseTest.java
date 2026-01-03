@@ -1,7 +1,10 @@
 package org.TestComponents;
 
 import Pages.LandingPage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,9 +18,13 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -87,6 +94,22 @@ public class BaseTest {
         return driver;
 
     }
+
+
+
+    protected List<HashMap<String,String>> getJsonDataToMap(String filePath) throws IOException {
+
+        //Read Json to String
+        String jsonContent = FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
+
+        // Convert String to HashMap
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>() {
+        });
+
+    }
+
 
     @BeforeMethod (alwaysRun = true)
     public LandingPage launchApplication() throws IOException {

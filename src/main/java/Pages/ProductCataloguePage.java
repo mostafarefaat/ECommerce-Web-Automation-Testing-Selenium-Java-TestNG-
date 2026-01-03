@@ -20,13 +20,14 @@ public class ProductCataloguePage extends Abstract {
     }
 
     By productsBy = By.cssSelector(".mb-3");
+
     By loginConfirmMsg = By.cssSelector("[aria-label*='Login Successfully']");
-    By addToCart = By.xpath("//button[2]");
+    By addToCart = By.xpath(".//button[2]");
     By toastMsg = By.id("toast-container");
     By spinner = By.cssSelector("ngx-spinner.ng-tns-c31-1");
 
     //PageFactory Design
-    @FindBy(css = ".mb-3")
+    @FindBy(xpath = "//div[@class='card']")
     List<WebElement> catalogueProducts;
 
 
@@ -37,14 +38,21 @@ public class ProductCataloguePage extends Abstract {
     }
 
     public WebElement getProductByName(String productName){
-        return getProductsList().stream().
-                filter(prod->prod.findElement(By.cssSelector("b")).getText().equals(productName))
-                .findFirst().orElse(null);
+        return getProductsList().stream()
+                .filter(prod ->
+                        prod.findElement(By.cssSelector("b"))
+                                .getText()
+                                .trim()
+                                .equalsIgnoreCase(productName)
+                )
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Product not found: " + productName));
+
     }
 
-    public void addProductToCart(String productName){
+    public void addProductToCart(Object productName){
 
-        getProductByName(productName).findElement(addToCart).click();
+        getProductByName(productName.toString()).findElement(addToCart).click();
         waitForElementToAppear(toastMsg);
         waitForElementToDisappear(spinner);
 
