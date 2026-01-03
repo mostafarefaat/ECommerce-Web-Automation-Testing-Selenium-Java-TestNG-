@@ -1,0 +1,19 @@
+    [
+
+      {
+        "email": "SaA@gmail.com",
+        "password":"Sa@123456",
+        "productName":"ZARA COAT 3",
+        "country":"Egypt"
+
+      },
+      
+      {
+        "email": "Test1@gmail.cc",
+        "password":"Sa@123456",
+        "productName":"ADIDAS ORIGINAL",
+        "country":"Egypt"
+
+      }
+
+    ]

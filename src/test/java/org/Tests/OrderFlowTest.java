@@ -7,7 +7,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class OrderFlowTest extends BaseTest {
 
@@ -45,21 +47,12 @@ public class OrderFlowTest extends BaseTest {
     }
 
     @DataProvider
-    public Object[][] getData(){
+    public Object[][] getData() throws IOException {
 
-        HashMap<Object,Object> map1 = new HashMap<Object, Object>();
-        map1.put("email","SaA@gmail.com");
-        map1.put("password","Sa@123456");
-        map1.put("productName","ZARA COAT 3");
-        map1.put("country","Egypt");
+        List<HashMap<String, String>> data = getJsonDataToMap(System.getProperty("user.dir")+
+                "//src//main//java//resources//PurchaseOrder.json");
 
-        HashMap<Object,Object> map2 = new HashMap<Object, Object>();
-        map2.put("email","Test1@gmail.cc");
-        map2.put("password","Sa@123456");
-        map2.put("productName","ADIDAS ORIGINAL");
-        map2.put("country","Egypt");
-
-        return new Object[][] { {map1},{map2} };
+        return new Object[][] { {data.get(0)},{data.get(1)} };
     }
 
 }
