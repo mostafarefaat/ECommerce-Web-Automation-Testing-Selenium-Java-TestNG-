@@ -130,7 +130,6 @@ public class BaseTest {
 
         FileUtils.copyFile(source, destinationFile);
 
-        // ✅ RETURN PATH RELATIVE TO report.html
         return "screenshots/" + fileName;
     }
 
