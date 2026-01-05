@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -30,7 +32,7 @@ import java.util.Properties;
 
 public class BaseTest {
 
-    private WebDriver driver;
+    protected WebDriver driver;
     public LandingPage landingPage;
 
     private WebDriver initializeDriver() throws IOException {
@@ -95,8 +97,6 @@ public class BaseTest {
 
     }
 
-
-
     protected List<HashMap<String,String>> getJsonDataToMap(String filePath) throws IOException {
 
         //Read Json to String
@@ -110,9 +110,32 @@ public class BaseTest {
 
     }
 
+    public String getScreenShot(String testCaseName, WebDriver driver) throws IOException {
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+
+        // Ensure screenshots directory exists
+        File screenshotsDir = new File(
+                System.getProperty("user.dir") + "/reports/screenshots"
+        );
+        if (!screenshotsDir.exists()) {
+            screenshotsDir.mkdirs();
+        }
+
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+
+        String fileName = testCaseName + "_" + timestamp + ".png";
+        File destinationFile = new File(screenshotsDir, fileName);
+
+        FileUtils.copyFile(source, destinationFile);
+
+        // ✅ RETURN PATH RELATIVE TO report.html
+        return "screenshots/" + fileName;
+    }
 
     @BeforeMethod (alwaysRun = true)
-    public LandingPage launchApplication() throws IOException {
+    protected LandingPage launchApplication() throws IOException {
         driver = initializeDriver();
         //Landing Page
         landingPage = new LandingPage(driver);
@@ -121,11 +144,10 @@ public class BaseTest {
     }
 
     @AfterMethod (alwaysRun = true)
-    public void tearDown() {
+    protected void tearDown() {
         if (driver != null) {
             driver.quit();  // closes browser + ends WebDriver session
             System.out.println("Driver closed successfully!");
         }
     }
-
 }

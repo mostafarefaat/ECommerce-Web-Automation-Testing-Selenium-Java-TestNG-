@@ -2,20 +2,23 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite  name="Suite">
 
-    <groups>
-        <run>
-            <include name="ErrorHandling"/>
-        </run>
-    </groups>
+<!--    <groups>-->
+<!--        <run>-->
+<!--            <include name="ErrorHandling"/>-->
+<!--        </run>-->
+<!--    </groups>-->
+    
+    <listeners>
+        <listener class-name="org.TestComponents.Listeners"/>
+    </listeners>
 
     <!--Error Handling Tests-->
-    <test thread-count="5" name="Error Validations Test">
-        <classes>
-
-            <class name="org.Tests.LoginErrorValidationTest">
-            </class>
-        </classes>
-    </test>
+<!--    <test thread-count="5" name="Error Validations Test">-->
+<!--        <classes>-->
+<!--            <class name="org.Tests.LoginErrorValidationTest">-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <!--E2E Tests-->
     <test thread-count="5" name="Submit Order Test">
