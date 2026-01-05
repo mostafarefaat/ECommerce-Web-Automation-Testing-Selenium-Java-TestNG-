@@ -1,22 +1,18 @@
 package org.Tests;
 
 import Pages.*;
-
 import org.TestComponents.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 public class OrderFlowTest extends BaseTest {
 
-
     @Test (dataProvider = "getData")
     public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded(HashMap<Object,Object> input){
-
 
         ProductCataloguePage cataloguePage = landingPage.loginApplication(input.get("email"),input.get("password"));
 
@@ -39,7 +35,7 @@ public class OrderFlowTest extends BaseTest {
 
     }
 
-    @Test ( dataProvider = "getData",dependsOnMethods = {"shouldSubmitOrderSuccessfully_whenValidProductIsAdded"})
+    @Test ( dataProvider = "getData")
     public void shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission(HashMap<Object,Object> input){
         ProductCataloguePage cataloguePage = landingPage.loginApplication(input.get("email"),input.get("password"));
         OrdersPage ordersPage = cataloguePage.goToOrdersPage();
