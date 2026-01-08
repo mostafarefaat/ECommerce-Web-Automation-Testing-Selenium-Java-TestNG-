@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite  name="Suite">
+<suite parallel="tests" name="Suite">
 
 <!--    <groups>-->
 <!--        <run>-->
@@ -13,18 +13,17 @@
     </listeners>
 
     <!--Error Handling Tests-->
-<!--    <test thread-count="5" name="Error Validations Test">-->
-<!--        <classes>-->
-<!--            <class name="org.Tests.LoginErrorValidationTest">-->
-<!--            </class>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test thread-count="1" name="Error Validations Test">
+        <classes>
+            <class name="org.Tests.LoginErrorValidationTest">
+            </class>
+        </classes>
+    </test>
 
     <!--E2E Tests-->
-    <test thread-count="5" name="Submit Order Test">
+    <test thread-count="1" name="Submit Order Test">
         <classes>
-            <class name="org.Tests.OrderFlowTest">
-            </class>
+            <class name="org.Tests.OrderFlowTest"/>
         </classes>
     </test>
 

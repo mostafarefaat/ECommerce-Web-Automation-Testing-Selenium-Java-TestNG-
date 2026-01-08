@@ -14,10 +14,14 @@ public class Listeners extends BaseTest implements ITestListener {
 
     ExtentTest test;
     ExtentReports extentReports = ExtentReporterNG.extentReportsConfig();
+    ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
 
     @Override
     public void onTestStart(ITestResult result) {
+
+
         test = extentReports.createTest(result.getMethod().getMethodName());
+        extentTest.set(test);
     }
 
     @Override
@@ -28,7 +32,7 @@ public class Listeners extends BaseTest implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
 
-        test.fail(result.getThrowable());
+        extentTest.get().fail(result.getThrowable());
 
         BaseTest baseTest = (BaseTest) result.getInstance();
         WebDriver driver = baseTest.driver;
@@ -39,10 +43,10 @@ public class Listeners extends BaseTest implements ITestListener {
                     driver
             );
 
-            test.addScreenCaptureFromPath(screenshotPath);
+            extentTest.get().addScreenCaptureFromPath(screenshotPath);
 
         } catch (IOException e) {
-            test.warning("Screenshot capture failed: " + e.getMessage());
+            extentTest.get().warning("Screenshot capture failed: " + e.getMessage());
         }
     }
 

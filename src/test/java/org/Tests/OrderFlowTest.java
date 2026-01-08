@@ -2,6 +2,7 @@ package org.Tests;
 
 import Pages.*;
 import org.TestComponents.BaseTest;
+import org.TestComponents.Retry;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class OrderFlowTest extends BaseTest {
 
-    @Test (dataProvider = "getData")
+    @Test (dataProvider = "getData", retryAnalyzer = Retry .class)
     public void shouldSubmitOrderSuccessfully_whenValidProductIsAdded(HashMap<Object,Object> input){
 
         ProductCataloguePage cataloguePage = landingPage.loginApplication(input.get("email"),input.get("password"));
@@ -35,7 +36,7 @@ public class OrderFlowTest extends BaseTest {
 
     }
 
-    @Test ( dataProvider = "getData")
+    @Test ( dataProvider = "getData", retryAnalyzer = Retry .class)
     public void shouldVerifyOrderExistsInOrderHistory_afterSuccessfulSubmission(HashMap<Object,Object> input){
         ProductCataloguePage cataloguePage = landingPage.loginApplication(input.get("email"),input.get("password"));
         OrdersPage ordersPage = cataloguePage.goToOrdersPage();
