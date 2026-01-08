@@ -18,22 +18,19 @@ public class Listeners extends BaseTest implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-
-
         test = extentReports.createTest(result.getMethod().getMethodName());
         extentTest.set(test);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        test.log(Status.PASS,"Test Passed");
+        extentTest.get().log(Status.PASS,"Test Passed");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
 
         extentTest.get().fail(result.getThrowable());
-
         BaseTest baseTest = (BaseTest) result.getInstance();
         WebDriver driver = baseTest.driver;
 
