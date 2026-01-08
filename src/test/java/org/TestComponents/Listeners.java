@@ -14,7 +14,7 @@ public class Listeners extends BaseTest implements ITestListener {
 
     ExtentTest test;
     ExtentReports extentReports = ExtentReporterNG.extentReportsConfig();
-    ThreadLocal<ExtentTest> extentTest = new ThreadLocal<ExtentTest>();
+    ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
 
     @Override
     public void onTestStart(ITestResult result) {
