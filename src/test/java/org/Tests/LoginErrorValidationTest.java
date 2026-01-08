@@ -5,8 +5,6 @@ import org.TestComponents.Retry;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-
 public class LoginErrorValidationTest extends BaseTest {
 
 
