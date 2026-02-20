@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -41,15 +42,22 @@ public class BaseTest {
         Properties properties = new Properties();
         FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"//src//main//java//Resources//GlobalData.properties");
         properties.load(fis);
-        String browser = properties.getProperty("browser");
 
-        if (browser.equalsIgnoreCase("chrome") ){
+        String browser = System.getProperty("browser") != null ? System.getProperty("browser") : properties.getProperty("browser");
+
+        if (browser.contains("chrome") ){
 
             WebDriverManager.chromedriver().setup();
             //Set Chrome Options if needed
             ChromeOptions options = new ChromeOptions();
 
+            if(browser.contains("headless")){
+                options.addArguments("headless");
+            }
+
             driver = new ChromeDriver(options);
+            driver.manage().window().setSize(new Dimension(1440,900)); //Full Screen Mode
+
 
             //Access DevTools
             DevTools devTools = ((ChromeDriver) driver).getDevTools();
@@ -69,13 +77,13 @@ public class BaseTest {
 
         }
 
-        else if (browser.equalsIgnoreCase("firefox")) {
+        else if (browser.contains("firefox")) {
             WebDriverManager.firefoxdriver().setup();
             FirefoxOptions options = new FirefoxOptions();
             driver = new FirefoxDriver(options);
         }
 
-        else if (browser.equalsIgnoreCase("edge")){
+        else if (browser.contains("edge")){
             System.out.println("Launching Edge browser...");
             System.out.println("Browser from properties file = " + browser);
             WebDriverManager.edgedriver().setup();
@@ -119,7 +127,7 @@ public class BaseTest {
                 System.getProperty("user.dir") + "/reports/screenshots"
         );
         if (!screenshotsDir.exists()) {
-            screenshotsDir.mkdirs();
+            boolean result  = screenshotsDir.mkdirs();
         }
 
         TakesScreenshot ts = (TakesScreenshot) driver;
